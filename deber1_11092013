@@ -1,0 +1,41 @@
+/*deber*/
+
+/*Cual es la longitud  maxima y minima de la columna descripcion de la tabla Cie10*/
+
+SELECT MAX(LENGTH(descripcion)) AS 'longitud mayor',MIN(LENGTH(descripcion)) as 'longitud menor' 
+FROM cie10;
+
+
+/*Que persona tiene el nombre mas largo y mas corto de la tabla personas*/
+SELECT MAX(LENGTH(CONCAT(apellido1,' ',apellido2,' ',nombre1,' ',nombre2))) AS 'LONGITUD_MAX_NOMBRES', MIN(LENGTH(CONCAT(apellido1,' ',apellido2,' ',nombre1,' ',nombre2))) AS 'LONGITUD_MIN_NOMBRES'
+FROM persona;
+
+SELECT LENGTH(CONCAT(apellido1,' ',apellido2,' ',nombre1,' ',nombre2)) AS 'LONGITUD_NOMBRES', CONCAT(apellido1,' ',apellido2,' ',nombre1,' ',nombre2) AS 'NOMBRE COMPLETOS'
+FROM persona
+WHERE  LENGTH(CONCAT(apellido1,' ',apellido2,' ',nombre1,' ',nombre2))='49'
+		OR
+		LENGTH(CONCAT(apellido1,' ',apellido2,' ',nombre1,' ',nombre2))='17';
+
+
+/*Cual es el total de casos de enfermedades que se hayan dado en la provincia de pichincha desde el ano 2010 hasta la fecha*/
+
+SELECT COUNT(enf.id) AS 'CASOS DE ENFERMEDADES PICHINCHA'
+FROM provincia prv  
+JOIN ciudad ciu ON prv.id=ciu.provincia_id
+JOIN persona prs ON ciu.id=prs.ciudad_id
+JOIN enfermedad enf ON prs.id=enf.persona_id
+WHERE prv.nombre='Pichincha'
+	AND enf.fecha 
+		BETWEEN '2010-01-01' 
+		AND '2013-09-01';
+
+/*Cual es el total de casos de enfermedades que se hayan dado en Guayaquil desde el ano 2008 hasta la fecha*/
+
+SELECT COUNT(enf.id) AS 'CASOS DE ENFERMEDADES GUAYAQUIL'
+FROM ciudad ciu
+JOIN persona prs ON ciu.id=prs.ciudad_id
+JOIN enfermedad enf ON prs.id=enf.persona_id
+WHERE ciu.nombre='Guayaquil'
+	AND enf.fecha 
+		BETWEEN '2008-01-01' 
+		AND '2013-09-01';
